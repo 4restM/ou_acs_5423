@@ -5,6 +5,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
 import instructorRoutes from './routes/instructorRoutes';
+import classRoutes from './routes/classRoutes';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Routes
 app.use('/api/instructors', instructorRoutes);
+app.use('/api/classes', classRoutes);
 
 // Health check
 // Dev Diagnostic endpoint TODO maybe delete for production? 
