@@ -137,3 +137,20 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+node_modules/
+dist/
+client/dist/
+server/dist/
+.env
+*.log
+coverage/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Lock files from other package managers
+package-lock.json
+yarn.lock
+
