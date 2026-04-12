@@ -3,7 +3,6 @@ import { IInstructorDocument } from '../types';
 
 const instructorSchema = new Schema<IInstructorDocument>(
   {
-    instructorId: { type: String, unique: true },
     firstName: {
       type: String,
       required: [true, 'First name is required'],
@@ -28,7 +27,7 @@ const instructorSchema = new Schema<IInstructorDocument>(
       default: 'email',
     },
   },
-  { timestamps: true }
+  { timestamps: true, id: false }
 );
 
 // Virtual property — not stored in the DB, computed on the fly
@@ -37,8 +36,8 @@ instructorSchema.virtual('fullName').get(function () {
 });
 
 // Without these, virtuals don't show up in API responses
-instructorSchema.set('toJSON', { virtuals: true });
-instructorSchema.set('toObject', { virtuals: true });
+instructorSchema.set('toJSON', { virtuals: true});
+instructorSchema.set('toObject', { virtuals: true});
 
 const Instructor = mongoose.model<IInstructorDocument>(
   'Instructor',
