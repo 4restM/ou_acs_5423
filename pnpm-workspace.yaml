@@ -1,1 +1,3 @@
-# FILLMEIN
+packages:
+  - 'server'
+  - 'client'
