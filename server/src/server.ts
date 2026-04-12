@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import connectDB from './config/db';
 import instructorRoutes from './routes/instructorRoutes';
 import classRoutes from './routes/classRoutes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
@@ -27,8 +29,18 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/api/instructors', instructorRoutes);
 app.use('/api/classes', classRoutes);
 
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'YogaApp API Docs',
+}));
+
+app.get('/api/docs.json', (_req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 // Health check
-// Dev Diagnostic endpoint TODO maybe delete for production? 
+// Dev Diagnostic endpoint TODO delete for production
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
