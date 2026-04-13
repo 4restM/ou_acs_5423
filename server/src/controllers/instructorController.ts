@@ -76,7 +76,7 @@ export const createInstructor = async (req: Request, res: Response) => {
 
     const saved = await instructor.save();
 
-    const confirmationMessage = `Welcome to Yoga'Hom! Your instructor id is ${saved._id}.`;
+    const confirmationMessage = `Welcome to Yoga'Hom! ... Your instructor id is ${saved._id}.`; // Specifically mentioned in reqs
 
     res.status(201).json({
       instructor: saved,
