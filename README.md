@@ -131,4 +131,4 @@ http://localhost:3001/api/docs
 - Full CRUD
 
 ## Disclosures
-- Claude Opus 4.6 was used the scaffolding, VS-Code Copilot was used in errors and the intellisense helped build out features.
+- Claude Opus 4.6 was used with the scaffolding, VS-Code Copilot was used in errors and the intellisense helped build out features.
