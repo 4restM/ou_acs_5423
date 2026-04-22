@@ -1,1 +1,1 @@
-// this will be used by Heroku, TODO: FILLINFILE
+web: node server/dist/server.js

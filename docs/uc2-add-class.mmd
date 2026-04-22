@@ -1,0 +1,26 @@
+
+sequenceDiagram
+    actor M as Manager
+    participant UI as YogaApp UI
+    participant API as API Server
+    participant DB as MongoDB
+
+    UI->>API: GET /instructors
+    API-->>UI: Instructor list for dropdown
+
+    M->>UI: Select instructor, day, time, type, pay rate
+    M->>UI: Submit
+    UI->>API: POST /classes
+    API->>DB: Check for schedule conflicts
+
+    alt Conflict exists
+        API-->>UI: 409 with conflicts and available slots
+        M->>UI: Select available slot and resubmit
+    end
+
+    API->>DB: Save class
+    API-->>UI: Confirmation
+
+    M->>UI: Click Publish
+    UI->>API: PATCH /classes/:id/publish
+    API-->>UI: Class published
