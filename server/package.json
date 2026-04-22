@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "test": "echo \"No servertests yet.. hold your horses!\" && exit 0"
   },
   "keywords": [],
   "author": "Forrest Miller",

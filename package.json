@@ -9,7 +9,7 @@
     "build:client": "cd client && pnpm run build",
     "heroku-postbuild": "pnpm run build",
     "start": "node server/dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests yet.. hold your horses!\" && exit 0"
   },
   "keywords": [],
   "author": "Forrest Miller",
