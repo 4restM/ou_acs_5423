@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor M as Manager
+    participant UI as YogaApp UI
+    participant API as API Server
+    participant DB as MongoDB
+
+    M->>UI: Enter instructor name
+    UI->>API: POST /instructors/check-name
+    API->>DB: Check for duplicate name
+    DB-->>API: Results
+
+    alt Duplicate found
+        API-->>UI: Show warning
+        M->>UI: Confirm or cancel
+    end
+
+    M->>UI: Fill remaining fields and submit
+    UI->>API: POST /instructors
+    API->>DB: Save instructor
+    DB-->>API: Saved record
+    API-->>UI: Confirmation message

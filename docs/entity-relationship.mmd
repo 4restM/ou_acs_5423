@@ -1,0 +1,31 @@
+erDiagram
+    INSTRUCTOR {
+        string _id PK
+        string firstName
+        string lastName
+        string phone
+        string email
+        string preferredCommunication
+        string street
+        string city
+        string state
+        string zip
+        date createdAt
+        date updatedAt
+    }
+
+    "CLASS" {
+        string _id PK
+        string instructor FK
+        string dayOfWeek
+        string startTime
+        string endTime
+        string classType
+        string className
+        number payRate
+        boolean isPublished
+        date createdAt
+        date updatedAt
+    }
+
+    INSTRUCTOR ||--o{ "CLASS" : teaches

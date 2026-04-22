@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "pnpm run build:server && pnpm run build:client",
+    "build:server": "cd server && pnpm run build",
+    "build:client": "cd client && pnpm run build",
+    "heroku-postbuild": "pnpm run build",
+    "start": "node server/dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
