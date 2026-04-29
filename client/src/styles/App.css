@@ -174,3 +174,109 @@ th {
   padding: 60px 20px;
   color: #666;
 }
+
+/* ── Toast notifications ─────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 360px;
+  width: 100%;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: all;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  padding: 14px 16px;
+  border-left: 4px solid #6b4c9a;
+  animation: toast-in 0.22s ease;
+}
+.toast-error {
+  border-left-color: #e53935;
+}
+.toast-warning {
+  border-left-color: #fb8c00;
+}
+.toast-success {
+  border-left-color: #4caf50;
+}
+.toast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.toast-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+.toast-error .toast-title {
+  color: #c62828;
+}
+.toast-warning .toast-title {
+  color: #e65100;
+}
+.toast-success .toast-title {
+  color: #2e7d32;
+}
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+.toast-close:hover {
+  color: #333;
+}
+.toast-list {
+  margin: 8px 0 0 0;
+  padding-left: 18px;
+  font-size: 0.85rem;
+  color: #555;
+}
+.toast-list li {
+  margin-bottom: 2px;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Form field error text ────────────────────────────────── */
+.field-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--danger, #e53935);
+}
+
+/* ── Input invalid highlight ──────────────────────────────── */
+.form-group input.is-invalid,
+.form-group select.is-invalid {
+  border-color: var(--danger, #e53935);
+  outline-color: var(--danger, #e53935);
+}
+
+/* ── Disabled submit button ───────────────────────────────── */
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
