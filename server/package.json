@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
-    "test": "echo \"No servertests yet.. hold your horses!\" && exit 0"
+    "test": "node ../node_modules/.bin/jest --config jest.config.ts --forceExit"
   },
   "keywords": [],
   "author": "Forrest Miller",
@@ -32,6 +32,7 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "jest": "^30.3.0",
+    "mongodb-memory-server": "^11.1.0",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.9",
     "tsx": "^4.21.0",
