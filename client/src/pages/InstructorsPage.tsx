@@ -36,8 +36,9 @@ const InstructorsPage = () => {
       setMessage({ type: 'success', text: data.confirmationMessage });
       setShowForm(false);
       load();
-    } catch (err: any) {
-      setMessage({ type: 'danger', text: err.message || 'Failed to create instructor' });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to create instructor';
+      setMessage({ type: 'danger', text: msg });
     }
   };
 
@@ -49,8 +50,9 @@ const InstructorsPage = () => {
       setEditing(null);
       setShowForm(false);
       load();
-    } catch (err: any) {
-      setMessage({ type: 'danger', text: err.message || 'Failed to update instructor' });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to update instructor';
+      setMessage({ type: 'danger', text: msg });
     }
   };
 

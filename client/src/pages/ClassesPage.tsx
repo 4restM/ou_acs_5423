@@ -39,12 +39,13 @@ const ClassesPage = () => {
       setMessage({ type: 'success', text: data.message });
       setShowForm(false);
       load();
-    } catch (err: any) {
-      if (err.status === 409) {
-        setConflicts(err as ConflictCheckResponse);
+    } catch (err) {
+      const apiErr = err as { status?: number; message?: string } & Partial<ConflictCheckResponse>;
+      if (apiErr.status === 409) {
+        setConflicts(apiErr as ConflictCheckResponse);
         setMessage({ type: 'warning', text: 'Schedule conflict detected. Please choose a different time.' });
       } else {
-        setMessage({ type: 'danger', text: err.message || 'Failed to create class' });
+        setMessage({ type: 'danger', text: apiErr.message || 'Failed to create class' });
       }
     }
   };
@@ -58,12 +59,13 @@ const ClassesPage = () => {
       setEditing(null);
       setShowForm(false);
       load();
-    } catch (err: any) {
-      if (err.status === 409) {
-        setConflicts(err as ConflictCheckResponse);
+    } catch (err) {
+      const apiErr = err as { status?: number; message?: string } & Partial<ConflictCheckResponse>;
+      if (apiErr.status === 409) {
+        setConflicts(apiErr as ConflictCheckResponse);
         setMessage({ type: 'warning', text: 'Schedule conflict detected.' });
       } else {
-        setMessage({ type: 'danger', text: err.message || 'Failed to update class' });
+        setMessage({ type: 'danger', text: apiErr.message || 'Failed to update class' });
       }
     }
   };
