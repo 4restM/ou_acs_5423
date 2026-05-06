@@ -125,6 +125,35 @@ const options: swaggerJsdoc.Options = {
             availableSlots: { type: 'array', items: { $ref: '#/components/schemas/TimeSlot' } },
           },
         },
+        Package: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            packageId: { type: 'string', example: 'P00001' },
+            packageName: { type: 'string', example: 'Monthly General' },
+            category: { type: 'string', enum: ['General', 'Senior'] },
+            numberOfClasses: { oneOf: [{ type: 'integer', enum: [1, 4, 10] }, { type: 'string', enum: ['unlimited'] }], example: 10 },
+            classType: { type: 'string', enum: ['General', 'Special'] },
+            startDate: { type: 'string', format: 'date', example: '2026-01-01' },
+            endDate: { type: 'string', format: 'date', example: '2026-12-31' },
+            price: { type: 'number', example: 120.0 },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+          },
+        },
+        PackageInput: {
+          type: 'object',
+          required: ['packageName', 'category', 'numberOfClasses', 'classType', 'startDate', 'endDate', 'price'],
+          properties: {
+            packageName: { type: 'string', example: 'Monthly General' },
+            category: { type: 'string', enum: ['General', 'Senior'] },
+            numberOfClasses: { oneOf: [{ type: 'integer', enum: [1, 4, 10] }, { type: 'string', enum: ['unlimited'] }] },
+            classType: { type: 'string', enum: ['General', 'Special'] },
+            startDate: { type: 'string', format: 'date', example: '2026-01-01' },
+            endDate: { type: 'string', format: 'date', example: '2026-12-31' },
+            price: { type: 'number', example: 120.0 },
+          },
+        },
         Error: {
           type: 'object',
           properties: {
