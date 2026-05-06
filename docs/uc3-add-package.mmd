@@ -1,0 +1,18 @@
+sequenceDiagram
+    actor M as Manager
+    participant UI as YogaApp UI
+    participant API as API Server
+    participant DB as MongoDB
+
+    M->>UI: Click "+ Add Package"
+    UI->>M: Display package form
+
+    M->>UI: Enter package name, category, number of classes, class type, start date, end date, price
+    M->>UI: Submit
+
+    UI->>API: POST /packages
+    API->>DB: Count existing packages (for packageId generation)
+    API->>DB: Save package with generated packageId (e.g. P00001)
+    API-->>UI: 201 with package and confirmation message
+
+    UI->>M: Display confirmation "Package has been added. Package ID: P00001."
