@@ -8,6 +8,9 @@ import type {
   ITimeSlot,
   IPackage,
   PackageFormData,
+  ICustomer,
+  CustomerFormData,
+  CustomerNameCheckResponse,
 } from '../types';
 
 const BASE = '/api';
@@ -121,3 +124,31 @@ export const updatePackage = (id: string, data: Partial<PackageFormData>) =>
 
 export const deletePackage = (id: string) =>
   request<{ message: string }>(`/packages/${id}`, { method: 'DELETE' });
+
+// ============ Customers ============
+
+export const getCustomers = () => request<ICustomer[]>('/customers');
+
+export const getCustomerById = (id: string) =>
+  request<ICustomer>(`/customers/${id}`);
+
+export const checkCustomerName = (firstName: string, lastName: string) =>
+  request<CustomerNameCheckResponse>('/customers/check-name', {
+    method: 'POST',
+    body: JSON.stringify({ firstName, lastName }),
+  });
+
+export const createCustomer = (data: CustomerFormData) =>
+  request<{ customer: ICustomer; confirmationMessage: string }>('/customers', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+export const updateCustomer = (id: string, data: Partial<CustomerFormData>) =>
+  request<ICustomer>(`/customers/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+
+export const deleteCustomer = (id: string) =>
+  request<{ message: string }>(`/customers/${id}`, { method: 'DELETE' });

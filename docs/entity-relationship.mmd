@@ -42,4 +42,21 @@ erDiagram
         date updatedAt
     }
 
+    CUSTOMER {
+        string _id PK
+        string customerId
+        string firstName
+        string lastName
+        string phone
+        string email
+        string preferredCommunication
+        string street
+        string city
+        string state
+        string zip
+        number classBalance
+        date createdAt
+        date updatedAt
+    }
+
     INSTRUCTOR ||--o{ "CLASS" : teaches
