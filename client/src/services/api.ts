@@ -6,6 +6,8 @@ import type {
   ClassFormData,
   ConflictCheckResponse,
   ITimeSlot,
+  IPackage,
+  PackageFormData,
 } from '../types';
 
 const BASE = '/api';
@@ -97,3 +99,25 @@ export const toggleClassPublish = (id: string) =>
 
 export const deleteClass = (id: string) =>
   request<{ message: string }>(`/classes/${id}`, { method: 'DELETE' });
+
+// ============ Packages ============
+
+export const getPackages = () => request<IPackage[]>('/packages');
+
+export const getPackageById = (id: string) =>
+  request<IPackage>(`/packages/${id}`);
+
+export const createPackage = (data: PackageFormData) =>
+  request<{ package: IPackage; confirmationMessage: string }>('/packages', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+export const updatePackage = (id: string, data: Partial<PackageFormData>) =>
+  request<IPackage>(`/packages/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+
+export const deletePackage = (id: string) =>
+  request<{ message: string }>(`/packages/${id}`, { method: 'DELETE' });

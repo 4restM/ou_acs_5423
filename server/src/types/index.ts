@@ -58,6 +58,27 @@ export interface ITimeSlot {
   end: string;
 }
 
+// ============ Package ============
+export type PackageCategory = 'General' | 'Senior';
+export type PackageClassType = 'General' | 'Special';
+export type NumberOfClasses = 1 | 4 | 10 | 'unlimited';
+
+export interface IPackage {
+  packageId?: string;
+  packageName: string;
+  category: PackageCategory;
+  numberOfClasses: NumberOfClasses;
+  classType: PackageClassType;
+  startDate: Date;
+  endDate: Date;
+  price: number;
+}
+
+export interface IPackageDocument extends IPackage, Document {
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // ============ API Response Types ============
 export interface NameCheckResponse {
   exists: boolean;
