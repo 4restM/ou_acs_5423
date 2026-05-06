@@ -66,8 +66,8 @@ const CustomerForm = ({ onSubmit, initialData, onCancel }: Props) => {
     return Object.keys(errs).length === 0;
   };
 
-  const handleCheckName = async () => {
-    if (!formData.firstName.trim() || !formData.lastName.trim()) return;
+  const handleCheckName = async (): Promise<boolean> => {
+    if (!formData.firstName.trim() || !formData.lastName.trim()) return true;
     try {
       const response = await checkCustomerName(
         formData.firstName.trim(),
@@ -79,12 +79,14 @@ const CustomerForm = ({ onSubmit, initialData, onCancel }: Props) => {
             .map((m) => `${m.fullName} (${m.customerId})`)
             .join(', ')}. Do you want to continue?`,
         );
-      } else {
-        setNameConfirmed(true);
-        setNameWarning(null);
+        return false;
       }
+      setNameConfirmed(true);
+      setNameWarning(null);
+      return true;
     } catch {
       setNameConfirmed(true);
+      return true;
     }
   };
 
@@ -93,8 +95,8 @@ const CustomerForm = ({ onSubmit, initialData, onCancel }: Props) => {
     if (!validate()) return;
 
     if (!initialData && !nameConfirmed && !nameWarning) {
-      await handleCheckName();
-      return;
+      const unique = await handleCheckName();
+      if (!unique) return;
     }
 
     setLoading(true);
