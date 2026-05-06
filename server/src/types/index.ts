@@ -79,6 +79,24 @@ export interface IPackageDocument extends IPackage, Document {
   updatedAt: Date;
 }
 
+// ============ Customer ============
+export interface ICustomer {
+  customerId?: string;
+  firstName: string;
+  lastName: string;
+  address?: IAddress;
+  phone?: string;
+  email?: string;
+  preferredCommunication: 'phone' | 'email';
+  classBalance: number;
+}
+
+export interface ICustomerDocument extends ICustomer, Document {
+  fullName: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // ============ API Response Types ============
 export interface NameCheckResponse {
   exists: boolean;

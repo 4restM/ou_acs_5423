@@ -7,6 +7,7 @@ import connectDB from './config/db';
 import instructorRoutes from './routes/instructorRoutes';
 import classRoutes from './routes/classRoutes';
 import packageRoutes from './routes/packageRoutes';
+import customerRoutes from './routes/customerRoutes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
 
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/api/instructors', instructorRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/packages', packageRoutes);
+app.use('/api/customers', customerRoutes);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',

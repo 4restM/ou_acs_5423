@@ -79,6 +79,37 @@ export interface ConflictCheckResponse {
   message?: string;
 }
 
+// ============ Customer ============
+export interface ICustomer {
+  _id: string;
+  customerId: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  address?: IAddress;
+  phone?: string;
+  email?: string;
+  preferredCommunication: 'phone' | 'email';
+  classBalance: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CustomerFormData {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  preferredCommunication: 'phone' | 'email';
+  address: IAddress;
+}
+
+export interface CustomerNameCheckResponse {
+  exists: boolean;
+  count: number;
+  matches: { customerId: string; fullName: string }[];
+}
+
 export interface AlertMessage {
   type: 'success' | 'danger' | 'warning' | 'info';
   text: string;

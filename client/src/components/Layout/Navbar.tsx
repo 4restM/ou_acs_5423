@@ -37,6 +37,11 @@ const Navbar = () => {
                 Packages
               </Link>
             </li>
+            <li>
+              <Link to="/customers" className={isActive('/customers')}>
+                Customers
+              </Link>
+            </li>
           </ul>
           <div style={{ position: 'relative' }}>
             <button

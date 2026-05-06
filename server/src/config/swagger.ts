@@ -154,6 +154,52 @@ const options: swaggerJsdoc.Options = {
             price: { type: 'number', example: 120.0 },
           },
         },
+        Customer: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            customerId: { type: 'string', example: 'C00001' },
+            firstName: { type: 'string', example: 'Jane' },
+            lastName: { type: 'string', example: 'Doe' },
+            fullName: { type: 'string', example: 'Jane Doe' },
+            address: { $ref: '#/components/schemas/Address' },
+            phone: { type: 'string', example: '412-555-0100' },
+            email: { type: 'string', example: 'jane@example.com' },
+            preferredCommunication: { type: 'string', enum: ['phone', 'email'] },
+            classBalance: { type: 'number', example: 0 },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+          },
+        },
+        CustomerInput: {
+          type: 'object',
+          required: ['firstName', 'lastName'],
+          properties: {
+            firstName: { type: 'string', example: 'Jane' },
+            lastName: { type: 'string', example: 'Doe' },
+            address: { $ref: '#/components/schemas/Address' },
+            phone: { type: 'string', example: '412-555-0100' },
+            email: { type: 'string', example: 'jane@example.com' },
+            preferredCommunication: { type: 'string', enum: ['phone', 'email'], default: 'email' },
+          },
+        },
+        CustomerNameCheckResponse: {
+          type: 'object',
+          properties: {
+            exists: { type: 'boolean' },
+            count: { type: 'integer' },
+            matches: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  customerId: { type: 'string' },
+                  fullName: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
         Error: {
           type: 'object',
           properties: {

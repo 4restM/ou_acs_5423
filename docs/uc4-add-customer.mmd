@@ -1,0 +1,32 @@
+sequenceDiagram
+    actor Manager
+    participant UI as YogiTrack UI
+    participant API as Express API
+    participant DB as MongoDB
+
+    Manager->>UI: Click "Add Customer"
+    UI->>Manager: Show customer form (first name, last name)
+    Manager->>UI: Enter first name + last name
+    UI->>API: POST /api/customers/check-name
+    API->>DB: Query customers by name (case-insensitive)
+    DB-->>API: Match results
+    alt Name already exists
+        API-->>UI: { exists: true, count: N, matches: [...] }
+        UI->>Manager: Show warning with existing customer IDs
+        Manager->>UI: Confirm to continue (or cancel)
+    else Name is unique
+        API-->>UI: { exists: false }
+    end
+    Manager->>UI: Enter remaining data (address, phone, email, preferred comm.)
+    Manager->>UI: Click "Add Customer"
+    UI->>UI: Validate required fields
+    alt Validation fails
+        UI->>Manager: Show field-level error messages
+    else Validation passes
+        UI->>API: POST /api/customers
+        API->>DB: Insert new customer (classBalance = 0)
+        DB-->>API: Saved customer with generated customerId (C00001)
+        API-->>UI: { customer, confirmationMessage }
+        UI->>Manager: Show success + confirmationMessage
+        Note over UI,Manager: "Welcome to Yoga'Hom! ... Your customer id is C00001."
+    end
