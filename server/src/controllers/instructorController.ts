@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Instructor from '../models/Instructor';
+import { isValidEmail, isValidPhone, escapeRegex } from '../utils/validation';
 
 // @desc    Get all instructors
 // @route   GET /api/instructors
@@ -34,9 +35,14 @@ export const getInstructorById = async (req: Request, res: Response) => {
 export const checkInstructorName = async (req: Request, res: Response) => {
   try {
     const { firstName, lastName } = req.body;
+
+    if (!firstName || !lastName) {
+      return res.status(400).json({ message: 'firstName and lastName are required' });
+    }
+
     const existing = await Instructor.find({
-      firstName: { $regex: new RegExp(`^${firstName}$`, 'i') },
-      lastName: { $regex: new RegExp(`^${lastName}$`, 'i') },
+      firstName: { $regex: new RegExp(`^${escapeRegex(firstName)}$`, 'i') },
+      lastName: { $regex: new RegExp(`^${escapeRegex(lastName)}$`, 'i') },
     });
 
     res.json({
@@ -63,6 +69,14 @@ export const createInstructor = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json({ message: 'First name and last name are required' });
+    }
+
+    if (email && !isValidEmail(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    if (phone && !isValidPhone(phone)) {
+      return res.status(400).json({ message: 'Invalid phone format' });
     }
 
     const instructor = new Instructor({
@@ -97,6 +111,16 @@ export const createInstructor = async (req: Request, res: Response) => {
 // @route   PUT /api/instructors/:id
 export const updateInstructor = async (req: Request, res: Response) => {
   try {
+    const { email, phone } = req.body;
+
+    if (email && !isValidEmail(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    if (phone && !isValidPhone(phone)) {
+      return res.status(400).json({ message: 'Invalid phone format' });
+    }
+
     const instructor = await Instructor.findByIdAndUpdate(
       req.params.id,
       req.body,
