@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import YogaClass from '../models/Class';
 import { DayOfWeek } from '../types';
+import { isValidDayOfWeek, isValidTime, isEndAfterStart } from '../utils/validation';
 
 export const getClasses = async (req: Request, res: Response) => {
   try {
@@ -56,6 +57,14 @@ export const checkConflicts = async (req: Request, res: Response) => {
         .json({ message: 'dayOfWeek, startTime, and endTime are required' });
     }
 
+    if (!isValidDayOfWeek(dayOfWeek)) {
+      return res.status(400).json({ message: 'Invalid dayOfWeek value' });
+    }
+
+    if (!isValidTime(startTime) || !isValidTime(endTime)) {
+      return res.status(400).json({ message: 'Invalid time format — use HH:MM' });
+    }
+
     const conflicts = await YogaClass.findConflicts(
       dayOfWeek,
       startTime,
@@ -102,6 +111,18 @@ export const createClass = async (req: Request, res: Response) => {
         message:
           'instructor, dayOfWeek, startTime, endTime, and payRate are required',
       });
+    }
+
+    if (!isValidDayOfWeek(dayOfWeek)) {
+      return res.status(400).json({ message: 'Invalid dayOfWeek value' });
+    }
+
+    if (!isValidTime(startTime) || !isValidTime(endTime)) {
+      return res.status(400).json({ message: 'Invalid time format — use HH:MM' });
+    }
+
+    if (!isEndAfterStart(startTime, endTime)) {
+      return res.status(400).json({ message: 'End time must be after start time' });
     }
 
     // Check for conflicts
@@ -153,6 +174,22 @@ export const createClass = async (req: Request, res: Response) => {
 export const updateClass = async (req: Request, res: Response) => {
   try {
     const { dayOfWeek, startTime, endTime } = req.body;
+
+    if (dayOfWeek && !isValidDayOfWeek(dayOfWeek)) {
+      return res.status(400).json({ message: 'Invalid dayOfWeek value' });
+    }
+
+    if (startTime && !isValidTime(startTime)) {
+      return res.status(400).json({ message: 'Invalid time format — use HH:MM' });
+    }
+
+    if (endTime && !isValidTime(endTime)) {
+      return res.status(400).json({ message: 'Invalid time format — use HH:MM' });
+    }
+
+    if (startTime && endTime && !isEndAfterStart(startTime, endTime)) {
+      return res.status(400).json({ message: 'End time must be after start time' });
+    }
 
     if (dayOfWeek || startTime || endTime) {
       const existing = await YogaClass.findById(req.params.id);

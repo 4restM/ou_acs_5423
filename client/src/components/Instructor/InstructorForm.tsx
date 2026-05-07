@@ -62,6 +62,10 @@ const InstructorForm = ({ onSubmit, initialData, onCancel }: Props) => {
       errs.email = 'Email is required when preferred communication is email';
     if (formData.preferredCommunication === 'phone' && !formData.phone.trim())
       errs.phone = 'Phone is required when preferred communication is phone';
+    if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      errs.email = 'Invalid email format';
+    if (formData.phone.trim() && !/^[\d\s\-().+]{7,20}$/.test(formData.phone))
+      errs.phone = 'Invalid phone format';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };

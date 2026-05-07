@@ -73,6 +73,8 @@ const ClassForm = ({ onSubmit, initialData, onCancel, conflicts }: Props) => {
     if (!formData.endTime) errs.endTime = 'End time is required';
     if (formData.startTime >= formData.endTime) errs.endTime = 'End time must be after start time';
     if (!formData.payRate || formData.payRate <= 0) errs.payRate = 'A valid pay rate is required';
+    if (formData.className && formData.className.length > 100)
+      errs.className = 'Class name must be 100 characters or fewer';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -174,6 +176,7 @@ const ClassForm = ({ onSubmit, initialData, onCancel, conflicts }: Props) => {
         <div className="form-group">
           <label>Class Name</label>
           <input type="text" name="className" value={formData.className} onChange={handleChange} placeholder="e.g. All Levels, Yoga with Weights" />
+          {errors.className && <small style={{ color: 'var(--danger)' }}>{errors.className}</small>}
         </div>
         <div className="form-group">
           <label>Pay Rate ($) *</label>

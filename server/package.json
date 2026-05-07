@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
-    "test": "echo \"No servertests yet.. hold your horses!\" && exit 0"
+    "test": "jest --forceExit"
   },
   "keywords": [],
   "author": "Forrest Miller",
