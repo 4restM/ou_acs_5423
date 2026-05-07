@@ -83,3 +83,32 @@ export interface AlertMessage {
   type: 'success' | 'danger' | 'warning' | 'info';
   text: string;
 }
+
+// ============ Package ============
+export type PackageCategory = 'General' | 'Senior';
+export type PackageClassType = 'General' | 'Special';
+export type NumberOfClasses = 1 | 4 | 10 | 'unlimited';
+
+export interface IPackage {
+  _id: string;
+  packageId: string;
+  packageName: string;
+  category: PackageCategory;
+  numberOfClasses: NumberOfClasses;
+  classType: PackageClassType;
+  startDate: string;
+  endDate: string;
+  price: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PackageFormData {
+  packageName: string;
+  category: PackageCategory;
+  numberOfClasses: NumberOfClasses;
+  classType: PackageClassType;
+  startDate: string;
+  endDate: string;
+  price: number;
+}

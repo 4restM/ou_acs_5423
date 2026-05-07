@@ -3,6 +3,7 @@ import Navbar from './components/Layout/Navbar';
 import DashboardPage from './pages/DashboardPage';
 import InstructorsPage from './pages/InstructorsPage';
 import ClassesPage from './pages/ClassesPage';
+import PackagesPage from './pages/PackagesPage';
 import './styles/App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/instructors" element={<InstructorsPage />} />
             <Route path="/classes" element={<ClassesPage />} />
+            <Route path="/packages" element={<PackagesPage />} />
           </Routes>
         </main>
       </div>

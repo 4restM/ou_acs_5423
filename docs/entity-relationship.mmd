@@ -28,4 +28,18 @@ erDiagram
         date updatedAt
     }
 
+    PACKAGE {
+        string _id PK
+        string packageId
+        string packageName
+        string category
+        mixed numberOfClasses
+        string classType
+        date startDate
+        date endDate
+        number price
+        date createdAt
+        date updatedAt
+    }
+
     INSTRUCTOR ||--o{ "CLASS" : teaches
