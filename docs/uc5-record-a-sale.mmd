@@ -1,0 +1,50 @@
+sequenceDiagram
+    actor Manager
+    participant UI as YogiTrack UI
+    participant API as Express API
+    participant DB as MongoDB
+
+    Manager->>UI: Click "+ Record Sale"
+    UI->>API: GET /api/customers
+    UI->>API: GET /api/packages
+    API->>DB: Fetch all customers
+    API->>DB: Fetch all packages
+    DB-->>API: Customer list
+    DB-->>API: Package list
+    API-->>UI: Customer list
+    API-->>UI: Package list
+    UI->>Manager: Show sale form (customer dropdown, package dropdown)
+
+    Manager->>UI: Select customer
+    Manager->>UI: Select package
+    UI->>UI: Auto-populate package type and amount from selected package
+
+    Manager->>UI: Enter payment method (cash / credit / check)
+    Manager->>UI: Enter validity start and end dates
+    Note over UI,Manager: Payment date is pre-filled as today (read-only)
+
+    Manager->>UI: Click "Record Sale"
+    UI->>UI: Validate required fields and date order
+    alt Client validation fails
+        UI->>Manager: Show field-level error messages
+    else Client validation passes
+        UI->>API: POST /api/sales { customer, package, amount, paymentMethod, validityStart, validityEnd }
+        API->>DB: Fetch customer by ID
+        API->>DB: Fetch package by ID
+        DB-->>API: Customer document
+        DB-->>API: Package document
+        alt Amount does not match package rate
+            API-->>UI: 400 { message: "Amount must match the package rate of $X" }
+            UI->>Manager: Show error message
+        else Validity dates outside package window or in the past
+            API-->>UI: 400 { message: date validation error }
+            UI->>Manager: Show error message
+        else All validations pass
+            API->>DB: Insert sale (saleId auto-generated, e.g. S00001)
+            API->>DB: Update customer classBalance += classesAwarded
+            DB-->>API: Saved sale document
+            DB-->>API: Updated customer document
+            API-->>UI: 201 { sale, confirmationMessage, customer }
+            UI->>Manager: Show success + confirmationMessage with new class balance
+        end
+    end
