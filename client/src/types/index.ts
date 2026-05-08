@@ -143,3 +143,45 @@ export interface PackageFormData {
   endDate: string;
   price: number;
 }
+
+// ============ Sale ============
+export type PaymentMethod = 'cash' | 'credit' | 'check';
+
+export interface ISale {
+  _id: string;
+  saleId: string;
+  customer: {
+    _id: string;
+    customerId: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    classBalance: number;
+  };
+  package: {
+    _id: string;
+    packageId: string;
+    packageName: string;
+    price: number;
+    numberOfClasses: NumberOfClasses;
+    classType: PackageClassType;
+    category: PackageCategory;
+  };
+  paymentDate: string;
+  amount: number;
+  paymentMethod: PaymentMethod;
+  validityStart: string;
+  validityEnd: string;
+  classesAwarded: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SaleFormData {
+  customer: string;
+  package: string;
+  amount: number;
+  paymentMethod: PaymentMethod | '';
+  validityStart: string;
+  validityEnd: string;
+}

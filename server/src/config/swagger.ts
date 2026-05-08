@@ -200,6 +200,55 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        Sale: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            saleId: { type: 'string', example: 'S00001' },
+            customer: {
+              type: 'object',
+              properties: {
+                _id: { type: 'string' },
+                customerId: { type: 'string' },
+                firstName: { type: 'string' },
+                lastName: { type: 'string' },
+                fullName: { type: 'string' },
+                classBalance: { type: 'number' },
+              },
+            },
+            package: {
+              type: 'object',
+              properties: {
+                _id: { type: 'string' },
+                packageId: { type: 'string' },
+                packageName: { type: 'string' },
+                price: { type: 'number' },
+                numberOfClasses: { oneOf: [{ type: 'integer', enum: [1, 4, 10] }, { type: 'string', enum: ['unlimited'] }] },
+                classType: { type: 'string' },
+              },
+            },
+            paymentDate: { type: 'string', format: 'date-time' },
+            amount: { type: 'number', example: 120.0 },
+            paymentMethod: { type: 'string', enum: ['cash', 'credit', 'check'] },
+            validityStart: { type: 'string', format: 'date', example: '2026-05-08' },
+            validityEnd: { type: 'string', format: 'date', example: '2026-12-31' },
+            classesAwarded: { type: 'number', example: 10 },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+          },
+        },
+        SaleInput: {
+          type: 'object',
+          required: ['customer', 'package', 'paymentMethod', 'amount', 'validityStart', 'validityEnd'],
+          properties: {
+            customer: { type: 'string', description: 'Customer ObjectId' },
+            package: { type: 'string', description: 'Package ObjectId' },
+            paymentMethod: { type: 'string', enum: ['cash', 'credit', 'check'] },
+            amount: { type: 'number', example: 120.0 },
+            validityStart: { type: 'string', format: 'date', example: '2026-05-08' },
+            validityEnd: { type: 'string', format: 'date', example: '2026-12-31' },
+          },
+        },
         Error: {
           type: 'object',
           properties: {

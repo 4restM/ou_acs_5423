@@ -42,6 +42,11 @@ const Navbar = () => {
                 Customers
               </Link>
             </li>
+            <li>
+              <Link to="/sales" className={isActive('/sales')}>
+                Sales
+              </Link>
+            </li>
           </ul>
           <div style={{ position: 'relative' }}>
             <button
