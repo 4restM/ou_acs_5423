@@ -8,6 +8,7 @@ import instructorRoutes from './routes/instructorRoutes';
 import classRoutes from './routes/classRoutes';
 import packageRoutes from './routes/packageRoutes';
 import customerRoutes from './routes/customerRoutes';
+import saleRoutes from './routes/saleRoutes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
 
@@ -32,6 +33,7 @@ app.use('/api/instructors', instructorRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/packages', packageRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/sales', saleRoutes);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',

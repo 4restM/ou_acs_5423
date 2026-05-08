@@ -97,6 +97,26 @@ export interface ICustomerDocument extends ICustomer, Document {
   updatedAt: Date;
 }
 
+// ============ Sale ============
+export type PaymentMethod = 'cash' | 'credit' | 'check';
+
+export interface ISale {
+  saleId?: string;
+  customer: Types.ObjectId;
+  package: Types.ObjectId;
+  paymentDate: Date;
+  amount: number;
+  paymentMethod: PaymentMethod;
+  validityStart: Date;
+  validityEnd: Date;
+  classesAwarded: number;
+}
+
+export interface ISaleDocument extends ISale, Document {
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // ============ API Response Types ============
 export interface NameCheckResponse {
   exists: boolean;

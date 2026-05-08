@@ -5,6 +5,7 @@ import InstructorsPage from './pages/InstructorsPage';
 import ClassesPage from './pages/ClassesPage';
 import PackagesPage from './pages/PackagesPage';
 import CustomersPage from './pages/CustomersPage';
+import SalesPage from './pages/SalesPage';
 import './styles/App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/classes" element={<ClassesPage />} />
             <Route path="/packages" element={<PackagesPage />} />
             <Route path="/customers" element={<CustomersPage />} />
+            <Route path="/sales" element={<SalesPage />} />
           </Routes>
         </main>
       </div>

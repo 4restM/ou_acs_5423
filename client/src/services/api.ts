@@ -11,6 +11,8 @@ import type {
   ICustomer,
   CustomerFormData,
   CustomerNameCheckResponse,
+  ISale,
+  SaleFormData,
 } from '../types';
 
 const BASE = '/api';
@@ -152,3 +154,18 @@ export const updateCustomer = (id: string, data: Partial<CustomerFormData>) =>
 
 export const deleteCustomer = (id: string) =>
   request<{ message: string }>(`/customers/${id}`, { method: 'DELETE' });
+
+// ============ Sales ============
+
+export const getSales = () => request<ISale[]>('/sales');
+
+export const getSaleById = (id: string) => request<ISale>(`/sales/${id}`);
+
+export const createSale = (data: SaleFormData) =>
+  request<{ sale: ISale; confirmationMessage: string; customer: ICustomer }>('/sales', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+export const deleteSale = (id: string) =>
+  request<{ message: string }>(`/sales/${id}`, { method: 'DELETE' });
