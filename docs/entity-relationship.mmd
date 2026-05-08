@@ -59,4 +59,21 @@ erDiagram
         date updatedAt
     }
 
+    SALE {
+        string _id PK
+        string saleId
+        string customer FK
+        string package FK
+        date paymentDate
+        number amount
+        string paymentMethod
+        date validityStart
+        date validityEnd
+        number classesAwarded
+        date createdAt
+        date updatedAt
+    }
+
     INSTRUCTOR ||--o{ "CLASS" : teaches
+    CUSTOMER ||--o{ SALE : purchases
+    PACKAGE ||--o{ SALE : "sold as"
