@@ -49,7 +49,7 @@ export const checkInstructorName = async (req: Request, res: Response) => {
       exists: existing.length > 0,
       count: existing.length,
       matches: existing.map((i) => ({
-        instructorId: i._id,
+        instructorId: i.instructorId,
         fullName: i.fullName,
       })),
     });
@@ -90,7 +90,7 @@ export const createInstructor = async (req: Request, res: Response) => {
 
     const saved = await instructor.save();
 
-    const confirmationMessage = `Welcome to Yoga'Hom! ... Your instructor id is ${saved._id}.`; // Specifically mentioned in reqs
+    const confirmationMessage = `Welcome to Yoga'Hom! ... Your instructor id is ${saved.instructorId}.`;
 
     res.status(201).json({
       instructor: saved,
