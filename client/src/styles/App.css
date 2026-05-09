@@ -1,3 +1,8 @@
+:root {
+  --danger: #c62828;
+  --text-muted: #666;
+}
+
 * {
   margin: 0;
   padding: 0;
