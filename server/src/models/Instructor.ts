@@ -3,6 +3,10 @@ import { IInstructorDocument } from '../types';
 
 const instructorSchema = new Schema<IInstructorDocument>(
   {
+    instructorId: {
+      type: String,
+      unique: true,
+    },
     firstName: {
       type: String,
       required: [true, 'First name is required'],
@@ -29,6 +33,12 @@ const instructorSchema = new Schema<IInstructorDocument>(
   },
   { timestamps: true, id: false }
 );
+
+instructorSchema.pre('save', async function () {
+  if (this.instructorId) return;
+  const count = await mongoose.model('Instructor').countDocuments();
+  this.instructorId = `I${String(count + 1).padStart(5, '0')}`;
+});
 
 // Virtual property — not stored in the DB, computed on the fly
 instructorSchema.virtual('fullName').get(function () {

@@ -7,6 +7,7 @@ export interface IAddress {
 
 export interface IInstructor {
   _id: string;
+  instructorId: string;
   firstName: string;
   lastName: string;
   fullName: string;

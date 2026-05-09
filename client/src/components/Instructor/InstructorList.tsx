@@ -35,7 +35,7 @@ const InstructorList = ({ instructors, onEdit, onDelete, loading }: Props) => {
         <tbody>
           {instructors.map((inst) => (
             <tr key={inst._id}>
-              <td><strong>{inst._id}</strong></td>
+              <td><strong>{inst.instructorId}</strong></td>
               <td>{inst.firstName} {inst.lastName}</td>
               <td>{inst.phone || '—'}</td>
               <td>{inst.email || '—'}</td>
