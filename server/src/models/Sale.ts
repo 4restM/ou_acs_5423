@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { ISaleDocument } from '../types';
 
+// this schema defines the structure of a Sale document in MongoDB, including fields for sale details and validation rules. It also includes a pre-save hook to generate a unique saleId based on the count of existing sales.
 const saleSchema = new Schema<ISaleDocument>(
   {
     saleId: {
@@ -48,6 +49,7 @@ const saleSchema = new Schema<ISaleDocument>(
   { timestamps: true },
 );
 
+// pre-save hook to generate a unique saleId based on the count of existing sales
 saleSchema.pre('save', async function () {
   if (this.saleId) return;
   const count = await mongoose.model('Sale').countDocuments();

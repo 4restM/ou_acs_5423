@@ -5,12 +5,14 @@ import { getPackages, createPackage, updatePackage, deletePackage } from '../ser
 import type { IPackage, PackageFormData, AlertMessage } from '../types';
 
 const PackagesPage = () => {
+  // state for packages, loading state, form visibility, currently editing package, and alert messages
   const [packages, setPackages] = useState<IPackage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<IPackage | null>(null);
   const [message, setMessage] = useState<AlertMessage | null>(null);
 
+  // this function loads packages from the API and handles loading state and errors.
   const load = useCallback(async () => {
     try {
       setLoading(true);
@@ -23,8 +25,10 @@ const PackagesPage = () => {
     }
   }, []);
 
+  // this effect runs once on mount to load packages
   useEffect(() => { load(); }, [load]);
 
+  // this function creates a new package and handles success and error messages.
   const handleCreate = async (formData: PackageFormData) => {
     try {
       const data = await createPackage(formData);
@@ -37,6 +41,7 @@ const PackagesPage = () => {
     }
   };
 
+  // this function updates a package and handles success and error messages.
   const handleUpdate = async (formData: PackageFormData) => {
     if (!editing) return;
     try {
@@ -51,6 +56,7 @@ const PackagesPage = () => {
     }
   };
 
+  // this function deletes a package after confirming with the user, and handles success and error messages.
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this package?')) return;
     try {
@@ -62,17 +68,21 @@ const PackagesPage = () => {
     }
   };
 
+  // this function sets the currently editing package and shows the form when the edit button is clicked.
   const handleEdit = (pkg: IPackage) => {
     setEditing(pkg);
     setShowForm(true);
     setMessage(null);
   };
 
+  // this function cancels the form and resets editing state when the cancel button is clicked.
   const handleCancel = () => {
     setShowForm(false);
     setEditing(null);
   };
 
+  // the main render function displays the page header, any alert messages, and either the package 
+    // form or the package list depending on the state.
   return (
     <div>
       <div className="card">

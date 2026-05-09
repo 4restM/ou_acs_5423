@@ -1,5 +1,7 @@
 import type { ICustomer } from '../../types';
 
+// this component renders a table of customers with their details and actions to edit or delete each customer. 
+// It also handles loading state and empty state when there are no customers.
 interface Props {
   customers: ICustomer[];
   onEdit: (customer: ICustomer) => void;
@@ -7,6 +9,8 @@ interface Props {
   loading: boolean;
 }
 
+// this component displays a list of customers in a table format, showing their ID, name, phone, email, preferred contact method, class balance,
+// and action buttons for editing and deleting. It also handles loading and empty states.
 const CustomerList = ({ customers, onEdit, onDelete, loading }: Props) => {
   if (loading) return <div className="loading">Loading customers...</div>;
 

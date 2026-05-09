@@ -1,3 +1,4 @@
+// interface for address, used in both instructors and customers
 export interface IAddress {
   street?: string;
   city?: string;
@@ -5,6 +6,7 @@ export interface IAddress {
   zip?: string;
 }
 
+// interface for instructor
 export interface IInstructor {
   _id: string;
   instructorId: string;
@@ -19,6 +21,7 @@ export interface IInstructor {
   updatedAt: string;
 }
 
+// form data for creating/updating an instructor
 export interface InstructorFormData {
   firstName: string;
   lastName: string;
@@ -28,18 +31,22 @@ export interface InstructorFormData {
   address: IAddress;
 }
 
+// response for checking if an instructor name is already taken
 export interface NameCheckResponse {
   exists: boolean;
   count: number;
   matches: { instructorId: string; fullName: string }[];
 }
 
+// day of week type for class scheduling
 export type DayOfWeek =
   | 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday'
   | 'Thursday' | 'Friday' | 'Saturday';
 
+// class type for general or special classes
 export type ClassType = 'General' | 'Special';
 
+// interface for class
 export interface IClass {
   _id: string;
   instructor: {
@@ -58,6 +65,7 @@ export interface IClass {
   updatedAt: string;
 }
 
+// form data for creating/updating a class
 export interface ClassFormData {
   instructor: string;
   dayOfWeek: DayOfWeek;
@@ -68,11 +76,13 @@ export interface ClassFormData {
   payRate: number;
 }
 
+// interface for time slot, used in class scheduling conflict checks
 export interface ITimeSlot {
   start: string;
   end: string;
 }
 
+// response for checking class scheduling conflicts
 export interface ConflictCheckResponse {
   hasConflict: boolean;
   conflicts: IClass[];
@@ -81,6 +91,7 @@ export interface ConflictCheckResponse {
 }
 
 // ============ Customer ============
+// interface for customer, includes class balance and preferred communication method
 export interface ICustomer {
   _id: string;
   customerId: string;
@@ -96,6 +107,7 @@ export interface ICustomer {
   updatedAt: string;
 }
 
+// form data for creating/updating a customer
 export interface CustomerFormData {
   firstName: string;
   lastName: string;
@@ -105,22 +117,27 @@ export interface CustomerFormData {
   address: IAddress;
 }
 
+// response for checking if a customer name is already taken
 export interface CustomerNameCheckResponse {
   exists: boolean;
   count: number;
   matches: { customerId: string; fullName: string }[];
 }
 
+//alert message interface
 export interface AlertMessage {
   type: 'success' | 'danger' | 'warning' | 'info';
   text: string;
 }
 
 // ============ Package ============
+// package category type for general / senior categories and class type for general / special classes, 
+// as well as number of classes which can be 1, 4, 10 or unlimited.
 export type PackageCategory = 'General' | 'Senior';
 export type PackageClassType = 'General' | 'Special';
 export type NumberOfClasses = 1 | 4 | 10 | 'unlimited';
 
+// interface for package, includes details about the package and its validity period
 export interface IPackage {
   _id: string;
   packageId: string;
@@ -135,6 +152,7 @@ export interface IPackage {
   updatedAt: string;
 }
 
+// form data for creating/updating a package
 export interface PackageFormData {
   packageName: string;
   category: PackageCategory;
@@ -146,8 +164,10 @@ export interface PackageFormData {
 }
 
 // ============ Sale ============
+// payment method type for sales transactions
 export type PaymentMethod = 'cash' | 'credit' | 'check';
 
+// interface for sale, includes details about the customer, package, payment, and validity period of the sale
 export interface ISale {
   _id: string;
   saleId: string;
@@ -178,6 +198,7 @@ export interface ISale {
   updatedAt: string;
 }
 
+// form data for creating a sale, includes customer, package, payment details, and validity period
 export interface SaleFormData {
   customer: string;
   package: string;
