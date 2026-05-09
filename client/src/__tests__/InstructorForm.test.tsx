@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import InstructorForm from '../components/Instructor/InstructorForm';
@@ -68,5 +68,20 @@ describe('InstructorForm — format validation', () => {
     await userEvent.type(screen.getByPlaceholderText(/enter last name/i), 'Smith');
     fireEvent.submit(screen.getByRole('button', { name: /add instructor/i }));
     expect(screen.queryByText(/invalid email/i)).not.toBeInTheDocument();
+  });
+});
+
+describe('InstructorForm — single-submit when name is unique', () => {
+  it('calls onSubmit on the first click when name check returns unique', async () => {
+    const onSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<InstructorForm onSubmit={onSubmit} />);
+
+    await userEvent.type(screen.getByPlaceholderText(/enter first name/i), 'Jane');
+    await userEvent.type(screen.getByPlaceholderText(/enter last name/i), 'Smith');
+    await userEvent.type(screen.getByPlaceholderText(/instructor@example\.com/i), 'jane@example.com');
+
+    fireEvent.submit(screen.getByRole('button', { name: /add instructor/i }));
+
+    await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
   });
 });
