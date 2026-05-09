@@ -157,4 +157,4 @@ http://localhost:3001/api/docs
 ## Disclosures
 - Claude Opus 4.6 was used with the scaffolding, VS-Code Copilot was used in errors and the intellisense helped build out features.
 
-- For Phase 2, I made more liberal usage of claude sonnet 4.6, notably for test and documentation, but I also used it more in the implementation of features. This is driven by a need by my employer to have more experience and double dipping. Per instructions about AI use, I'm ensuring that I am compliant by commenting any confusing areas of code that were written by claude.
+- For Phase 2, I made more liberal usage of claude sonnet 4.6, especially for test and documentation, but I also used it more in the implementation of features. This is driven by a need by my employer to have more experience and double dipping. Per instructions about AI use, I'm ensuring that I am compliant by commenting any confusing areas of code that were written by claude.

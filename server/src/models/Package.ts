@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { IPackageDocument } from '../types';
 
+// this schema defines the structure of a Package document in MongoDB, including fields for package details and validation rules. It also includes a pre-save hook to generate a unique packageId based on the count of existing packages.
 const packageSchema = new Schema<IPackageDocument>(
   {
     packageId: {
@@ -47,6 +48,7 @@ const packageSchema = new Schema<IPackageDocument>(
   { timestamps: true }
 );
 
+// pre-save hook to generate a unique packageId based on the count of existing packages
 packageSchema.pre('save', async function () {
   if (this.packageId) return;
   const count = await mongoose.model('Package').countDocuments();

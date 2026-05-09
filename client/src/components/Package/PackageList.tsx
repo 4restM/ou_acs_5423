@@ -1,5 +1,6 @@
 import type { IPackage } from '../../types';
 
+// this interface defines the props for the PackageList component, which displays a list of packages in a table format. It includes handlers for editing and deleting packages, as well as a loading state.
 interface Props {
   packages: IPackage[];
   onEdit: (pkg: IPackage) => void;
@@ -19,6 +20,7 @@ const PackageList = ({ packages, onEdit, onDelete, loading }: Props) => {
     );
   }
 
+  // this table displays all the packages with their details and action buttons.
   return (
     <div className="table-container">
       <table>

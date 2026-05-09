@@ -1,6 +1,7 @@
 import { Document, Types } from 'mongoose';
 
 // ============ Address ============
+// this interface defines the structure of an address, used in both instructors and customers
 export interface IAddress {
   street?: string;
   city?: string;
@@ -9,6 +10,7 @@ export interface IAddress {
 }
 
 // ============ Instructor ============
+// this interface defines the structure of an instructor, including personal details and contact information
 export interface IInstructor {
   instructorId?: string;
   firstName: string;
@@ -19,6 +21,7 @@ export interface IInstructor {
   preferredCommunication: 'phone' | 'email';
 }
 
+// this interface extends the IInstructor interface and includes additional fields for full name and timestamps, used for MongoDB documents
 export interface IInstructorDocument extends IInstructor, Document {
   fullName: string;
   createdAt: Date;
@@ -26,6 +29,7 @@ export interface IInstructorDocument extends IInstructor, Document {
 }
 
 // ============ Class ============
+// this interface defines the structure of a class, including scheduling details and instructor reference
 export type DayOfWeek =
   | 'Sunday'
   | 'Monday'
@@ -35,8 +39,10 @@ export type DayOfWeek =
   | 'Friday'
   | 'Saturday';
 
+// this type defines the class type, which can be either General or Special
 export type ClassType = 'General' | 'Special';
 
+// this interface defines the structure of a class, including scheduling details and instructor reference
 export interface IClass {
   instructor: Types.ObjectId;
   dayOfWeek: DayOfWeek;
@@ -48,21 +54,26 @@ export interface IClass {
   isPublished: boolean;
 }
 
+// this interface extends the IClass interface and includes additional fields for timestamps, used for MongoDB documents
 export interface IClassDocument extends IClass, Document {
   createdAt: Date;
   updatedAt: Date;
 }
 
+// this interface defines a time slot with start and end times, used for checking class scheduling conflicts
 export interface ITimeSlot {
   start: string;
   end: string;
 }
 
 // ============ Package ============
+// this type defines the package, which can be either General or Senior category, and General or Special class type 
+// with specific number of classes allowed
 export type PackageCategory = 'General' | 'Senior';
 export type PackageClassType = 'General' | 'Special';
 export type NumberOfClasses = 1 | 4 | 10 | 'unlimited';
 
+// this interface defines the structure of a package, including details about the package and its validity period
 export interface IPackage {
   packageId?: string;
   packageName: string;
@@ -74,12 +85,14 @@ export interface IPackage {
   price: number;
 }
 
+// this interface extends the IPackage interface and includes additional fields for timestamps, used for MongoDB documents
 export interface IPackageDocument extends IPackage, Document {
   createdAt: Date;
   updatedAt: Date;
 }
 
 // ============ Customer ============
+// this interface defines the structure of a customer, including personal details, contact information, preferred communication method, and class balance
 export interface ICustomer {
   customerId?: string;
   firstName: string;
@@ -91,6 +104,7 @@ export interface ICustomer {
   classBalance: number;
 }
 
+// this interface extends the ICustomer interface and includes additional fields for full name and timestamps, used for MongoDB documents
 export interface ICustomerDocument extends ICustomer, Document {
   fullName: string;
   createdAt: Date;
@@ -98,8 +112,10 @@ export interface ICustomerDocument extends ICustomer, Document {
 }
 
 // ============ Sale ============
+// this type defines the payment method for a sale, which can be cash, credit, or check
 export type PaymentMethod = 'cash' | 'credit' | 'check';
 
+// this interface defines the structure of a sale, including details about the customer, package, payment, and validity period of the sale
 export interface ISale {
   saleId?: string;
   customer: Types.ObjectId;
@@ -112,18 +128,21 @@ export interface ISale {
   classesAwarded: number;
 }
 
+// this interface extends the ISale interface and includes additional fields for timestamps, used for MongoDB documents
 export interface ISaleDocument extends ISale, Document {
   createdAt: Date;
   updatedAt: Date;
 }
 
 // ============ API Response Types ============
+// this interface defines the structure of the response when checking if a customer name is already taken, including whether it exists, the count of matches, and any matching instructor details
 export interface NameCheckResponse {
   exists: boolean;
   count: number;
   matches: { instructorId: string; fullName: string }[];
 }
 
+// this interface defines the structure of the response when checking for scheduling conflicts, including whether there are conflicts, the conflicting classes, and available time slots
 export interface ConflictCheckResponse {
   hasConflict: boolean;
   conflicts: IClassDocument[];

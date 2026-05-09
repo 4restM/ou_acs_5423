@@ -1,6 +1,7 @@
 import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import type { IPackage, PackageFormData, NumberOfClasses } from '../../types';
 
+// this interface's on submit is async because the parent component will handle the API call and we want to show a loading state while it's processing.
 interface Props {
   onSubmit: (data: PackageFormData) => Promise<void>;
   initialData?: IPackage | null;
@@ -18,10 +19,12 @@ const emptyForm: PackageFormData = {
 };
 
 const PackageForm = ({ onSubmit, initialData, onCancel }: Props) => {
+  //state for form data, errors, and loading state
   const [formData, setFormData] = useState<PackageFormData>(emptyForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
+  // when initialData changes (e.g. when editing a package), we populate the form with that data
   useEffect(() => {
     if (initialData) {
       setFormData({
@@ -36,6 +39,7 @@ const PackageForm = ({ onSubmit, initialData, onCancel }: Props) => {
     }
   }, [initialData]);
 
+  // this function handles changes to all form fields.
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === 'numberOfClasses') {
@@ -48,6 +52,7 @@ const PackageForm = ({ onSubmit, initialData, onCancel }: Props) => {
     }
   };
 
+  // required validation
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
     if (!formData.packageName.trim()) errs.packageName = 'Package name is required';

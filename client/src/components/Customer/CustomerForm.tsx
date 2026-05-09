@@ -2,12 +2,14 @@ import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { checkCustomerName } from '../../services/api';
 import type { ICustomer, CustomerFormData } from '../../types';
 
+// this interface's on submit is async because the parent component will handle the API call and we want to show a loading state while it's processing.
 interface Props {
   onSubmit: (data: CustomerFormData) => Promise<void>;
   initialData?: ICustomer | null;
   onCancel?: () => void;
 }
 
+// this is the initial state for the customer form, with empty fields for all customer details.
 const emptyForm: CustomerFormData = {
   firstName: '',
   lastName: '',
@@ -17,6 +19,9 @@ const emptyForm: CustomerFormData = {
   address: { street: '', city: '', state: '', zip: '' },
 };
 
+// this component renders a form for creating or editing a customer, with fields for personal details, 
+// contact information, preferred communication method, and address. It also includes validation 
+// and checks for duplicate names.
 const CustomerForm = ({ onSubmit, initialData, onCancel }: Props) => {
   const [formData, setFormData] = useState<CustomerFormData>(emptyForm);
   const [nameWarning, setNameWarning] = useState<string | null>(null);
@@ -90,6 +95,7 @@ const CustomerForm = ({ onSubmit, initialData, onCancel }: Props) => {
     }
   };
 
+  // this function handles the form submission, including validation and checking for duplicate names before calling the onSubmit prop.
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!validate()) return;

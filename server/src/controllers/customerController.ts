@@ -3,6 +3,7 @@ import Customer from '../models/Customer';
 
 // @desc    Get all customers
 // @route   GET /api/customers
+// this function retrieves all customers from the database and returns them as JSON, sorted by last name and first name. It also handles server errors.
 export const getCustomers = async (_req: Request, res: Response) => {
   try {
     const customers = await Customer.find().sort({ lastName: 1, firstName: 1 });
@@ -14,6 +15,7 @@ export const getCustomers = async (_req: Request, res: Response) => {
 
 // @desc    Get a single customer by ID
 // @route   GET /api/customers/:id
+// this function retrieves a customer by its ID and returns it, or returns a 404 error if the customer is not found. It also handles server errors.
 export const getCustomerById = async (req: Request, res: Response) => {
   try {
     const customer = await Customer.findById(req.params.id);
@@ -28,6 +30,7 @@ export const getCustomerById = async (req: Request, res: Response) => {
 
 // @desc    Check if a customer name already exists
 // @route   POST /api/customers/check-name
+// this function checks if a customer with the given first and last name already exists in the database, and returns a response indicating whether it exists, how many matches there are, and the matching customer IDs and full names. It also handles server errors.
 export const checkCustomerName = async (req: Request, res: Response) => {
   try {
     const { firstName, lastName } = req.body;
@@ -51,6 +54,7 @@ export const checkCustomerName = async (req: Request, res: Response) => {
 
 // @desc    Create a new customer
 // @route   POST /api/customers
+// this function creates a new customer with the provided details, validates the input, and returns the created customer along with a confirmation message. It also handles validation and server errors.
 export const createCustomer = async (req: Request, res: Response) => {
   try {
     const {
@@ -97,6 +101,7 @@ export const createCustomer = async (req: Request, res: Response) => {
 
 // @desc    Update a customer
 // @route   PUT /api/customers/:id
+// this function updates a customer with the provided details, validates the input, and returns the updated customer. It also handles validation and server errors.
 export const updateCustomer = async (req: Request, res: Response) => {
   try {
     const customer = await Customer.findByIdAndUpdate(
@@ -119,6 +124,7 @@ export const updateCustomer = async (req: Request, res: Response) => {
 
 // @desc    Delete a customer
 // @route   DELETE /api/customers/:id
+// this function deletes a customer by ID and returns a confirmation message, or returns a 404 error if the customer is not found. It also handles server errors.
 export const deleteCustomer = async (req: Request, res: Response) => {
   try {
     const customer = await Customer.findByIdAndDelete(req.params.id);

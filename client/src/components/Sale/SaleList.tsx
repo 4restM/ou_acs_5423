@@ -1,11 +1,13 @@
 import type { ISale } from '../../types';
 
+// this interface defines the props for the SaleList component, which includes an array of sales, a function to handle deletion of a sale, and a loading state.
 interface Props {
   sales: ISale[];
   onDelete: (id: string) => void;
   loading: boolean;
 }
 
+// this component renders a table of sales transactions, displaying details about the customer, package, payment, and validity period of each sale. It also includes a delete button for each sale.
 const SaleList = ({ sales, onDelete, loading }: Props) => {
   if (loading) return <div className="loading">Loading sales...</div>;
 
@@ -18,8 +20,10 @@ const SaleList = ({ sales, onDelete, loading }: Props) => {
     );
   }
 
+  // this function formats a date string into a more readable format for display in the table.
   const formatDate = (d: string) => new Date(d).toLocaleDateString();
 
+  // this function formats the number of classes awarded for display, showing "Unlimited" if the number is 9999 or more, or the actual number otherwise.
   const displayClasses = (awarded: number) => (awarded >= 9999 ? 'Unlimited' : String(awarded));
 
   return (

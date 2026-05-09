@@ -6,7 +6,8 @@ import Package from '../models/Package';
 const VALID_PAYMENT_METHODS = ['cash', 'credit', 'check'];
 
 // @desc    Get all sales
-// @route   GET /api/sales
+// @route   GET /api/
+// this function retrieves all sales from the database, populating the customer and package details for each sale, and returns them as JSON sorted by payment date in descending order. It also handles server errors.
 export const getSales = async (_req: Request, res: Response) => {
   try {
     const sales = await Sale.find()
@@ -21,6 +22,7 @@ export const getSales = async (_req: Request, res: Response) => {
 
 // @desc    Get a single sale by ID
 // @route   GET /api/sales/:id
+// this function retrieves a sale by its ID, populating the customer and package details, and returns it as JSON. If the sale is not found, it returns a 404 error. It also handles server errors.
 export const getSaleById = async (req: Request, res: Response) => {
   try {
     const sale = await Sale.findById(req.params.id)
@@ -37,6 +39,7 @@ export const getSaleById = async (req: Request, res: Response) => {
 
 // @desc    Create a new sale
 // @route   POST /api/sales
+// this function creates a new sale with the provided details, validates the input, updates the customer's class balance based on the package purchased, and returns the created sale along with a confirmation message. It also handles validation and server errors.
 export const createSale = async (req: Request, res: Response) => {
   try {
     const { customer, package: packageId, paymentMethod, amount, validityStart, validityEnd } =
@@ -64,25 +67,30 @@ export const createSale = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Validity end date is required' });
     }
 
+    // Validate that validity end date is after start date
     const vStart = new Date(validityStart);
     const vEnd = new Date(validityEnd);
 
+    // Check if validity end date is after start date
     if (vEnd <= vStart) {
       return res
         .status(400)
         .json({ message: 'Validity end date must be after validity start date' });
     }
 
+    // Validate that customer and package exist
     const customerDoc = await Customer.findById(customer);
     if (!customerDoc) {
       return res.status(404).json({ message: 'Customer not found' });
     }
 
+    // Validate that package exists
     const packageDoc = await Package.findById(packageId);
     if (!packageDoc) {
       return res.status(404).json({ message: 'Package not found' });
     }
 
+    // Validate that amount matches package price
     const numericAmount = Number(amount);
     if (numericAmount !== packageDoc.price) {
       return res
@@ -90,16 +98,19 @@ export const createSale = async (req: Request, res: Response) => {
         .json({ message: `Amount must match the package rate of $${packageDoc.price}` });
     }
 
+    // Validate that validity period falls within package start and end dates
     const pkgStart = new Date(packageDoc.startDate);
     pkgStart.setHours(0, 0, 0, 0);
     const pkgEnd = new Date(packageDoc.endDate);
     pkgEnd.setHours(23, 59, 59, 999);
 
+    // Validate that validity start date is today or later, and falls within package dates
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     vStart.setHours(0, 0, 0, 0);
     vEnd.setHours(0, 0, 0, 0);
 
+    // Check that validity start date is not in the past and falls within package dates
     if (vStart < today) {
       return res.status(400).json({ message: 'Validity start date must be today or later' });
     }
@@ -114,9 +125,11 @@ export const createSale = async (req: Request, res: Response) => {
         .json({ message: 'Validity end date cannot be after the package end date' });
     }
 
+    // Calculate classes awarded based on package details
     const classesAwarded =
       packageDoc.numberOfClasses === 'unlimited' ? 9999 : (packageDoc.numberOfClasses as number);
 
+    // Create the sale
     const sale = new Sale({
       customer,
       package: packageId,
@@ -128,14 +141,18 @@ export const createSale = async (req: Request, res: Response) => {
       classesAwarded,
     });
 
+    // Save the sale and update the customer's class balance
     const saved = await sale.save();
 
+    // Update customer's class balance
     customerDoc.classBalance += classesAwarded;
     await customerDoc.save();
 
+    // Populate the saved sale with customer and package details for the response
     await saved.populate('customer', 'customerId firstName lastName fullName classBalance');
     await saved.populate('package', 'packageId packageName price numberOfClasses classType');
 
+    // Prepare confirmation message with updated class balance
     const updatedCustomer = await Customer.findById(customer);
     const balanceDisplay =
       classesAwarded === 9999 ? 'Unlimited' : String(updatedCustomer?.classBalance ?? 0);
@@ -154,6 +171,7 @@ export const createSale = async (req: Request, res: Response) => {
 
 // @desc    Delete a sale (reverts customer classBalance)
 // @route   DELETE /api/sales/:id
+// this function deletes a sale by ID, first reverting the customer's class balance based on the classes awarded in the sale, and then removing the sale from the database. It returns a confirmation message or appropriate error messages if the sale is not found or if there is a server error.
 export const deleteSale = async (req: Request, res: Response) => {
   try {
     const sale = await Sale.findById(req.params.id);

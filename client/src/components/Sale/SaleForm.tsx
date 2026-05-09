@@ -2,11 +2,13 @@ import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { getCustomers, getPackages } from '../../services/api';
 import type { ICustomer, IPackage, SaleFormData, PaymentMethod } from '../../types';
 
+// this interface's on submit is async because the parent component will handle the API call and we want to show a loading state while it's processing.
 interface Props {
   onSubmit: (data: SaleFormData) => Promise<void>;
   onCancel?: () => void;
 }
 
+// This removes the time portion from the current date
 const today = new Date().toISOString().split('T')[0];
 
 const emptyForm: SaleFormData = {
@@ -18,7 +20,11 @@ const emptyForm: SaleFormData = {
   validityEnd: '',
 };
 
+// this component renders a form for recording a sale, with fields for selecting a customer and package, 
+// entering payment details, and specifying the validity period of the package. 
+// It also includes validation and dynamically displays package details when a package is selected.
 const SaleForm = ({ onSubmit, onCancel }: Props) => {
+  // state for form data, list of customers and packages, selected package details, form errors, and loading state
   const [formData, setFormData] = useState<SaleFormData>(emptyForm);
   const [customers, setCustomers] = useState<ICustomer[]>([]);
   const [packages, setPackages] = useState<IPackage[]>([]);
@@ -26,6 +32,7 @@ const SaleForm = ({ onSubmit, onCancel }: Props) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
+  // this effect loads customers and packages from the API when the component mounts, and populates the corresponding state variables.
   useEffect(() => {
     Promise.all([getCustomers(), getPackages()]).then(([c, p]) => {
       setCustomers(c);
@@ -33,6 +40,7 @@ const SaleForm = ({ onSubmit, onCancel }: Props) => {
     });
   }, []);
 
+  // this function handles changes to all form fields, updating the form data state and clearing any existing errors for that field.
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
@@ -51,6 +59,8 @@ const SaleForm = ({ onSubmit, onCancel }: Props) => {
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
+  // this function validates the form data, checking for required fields and logical consistency (e.g. end date must be after start date). 
+  // It sets error messages for any invalid fields and returns a boolean indicating whether the form is valid.
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
 
@@ -73,6 +83,7 @@ const SaleForm = ({ onSubmit, onCancel }: Props) => {
     return Object.keys(errs).length === 0;
   };
 
+  // this function handles form submission, validating the form data and then calling the onSubmit prop with the form data if valid. It also manages the loading state while the submission is being processed.
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -85,6 +96,7 @@ const SaleForm = ({ onSubmit, onCancel }: Props) => {
     }
   };
 
+  // this function formats the number of classes for display, showing "Unlimited" if the package has unlimited classes, or the number otherwise.
   const displayClasses = (pkg: IPackage) =>
     pkg.numberOfClasses === 'unlimited' ? 'Unlimited' : String(pkg.numberOfClasses);
 
@@ -121,7 +133,7 @@ const SaleForm = ({ onSubmit, onCancel }: Props) => {
           )}
         </div>
       </div>
-
+      {/* This section displays details of the selected package */}
       {selectedPackage && (
         <div className="form-row">
           <div className="form-group">
