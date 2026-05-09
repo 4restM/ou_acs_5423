@@ -4,13 +4,14 @@ A full-stack MERN application built with TypeScript, Vite, and pnpm.
 
 ## Tech Stack
 
-| Layer       | Technology                     |
-|-------------|--------------------------------|
-| Frontend    | React 19, Vite 8, TypeScript   |
-| Backend     | Express 5, TypeScript, tsx     |
-| Database    | MongoDB (Mongoose)             |
-| API Docs    | Swagger UI (OpenAPI 3.0)       |
-| Pkg Manager | pnpm                           |
+| Layer       | Technology                                              |
+|-------------|---------------------------------------------------------|
+| Frontend    | React 19, Vite 8, TypeScript                            |
+| Backend     | Express 5, TypeScript, tsx                              |
+| Database    | MongoDB (Mongoose)                                      |
+| API Docs    | Swagger UI (OpenAPI 3.0)                                |
+| Testing     | Jest + ts-jest (server), Vitest + React Testing Library (client) |
+| Pkg Manager | pnpm                                                    |
 
 ## Project Structure
 
