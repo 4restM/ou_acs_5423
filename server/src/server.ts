@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import path from 'path';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
+import { migrateInstructorIds } from './scripts/migrateInstructorIds';
 import instructorRoutes from './routes/instructorRoutes';
 import classRoutes from './routes/classRoutes';
 import packageRoutes from './routes/packageRoutes';
@@ -15,7 +16,11 @@ import swaggerSpec from './config/swagger';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
 
-connectDB();
+connectDB().then(() => {
+  migrateInstructorIds().catch((err) =>
+    console.error('[migration] migrateInstructorIds failed:', err),
+  );
+});
 
 const app = express();
 
